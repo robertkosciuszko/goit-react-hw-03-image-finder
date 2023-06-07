@@ -2,7 +2,11 @@ import propTypes from 'prop-types';
 import css from './ImageGalleryItem.module.css';
 
 export const ImageGalleryItem = ({ image, onclick }) => (
-  <li className={css.ImageGalleryItem} id={image.id} onClick={onclick}>
+  <li
+    className={css.ImageGalleryItem}
+    id={image.id}
+    onClick={() => onclick(image.largeImageURL, image.tags)}
+  >
     <img
       src={image.webformatURL}
       alt={image.tags}

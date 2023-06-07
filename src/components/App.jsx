@@ -8,7 +8,6 @@ import { Modal } from './Modal/Modal';
 import React from 'react';
 import styles from '../index.css';
 
-
 export class App extends Component {
   state = {
     images: [],
@@ -47,11 +46,11 @@ export class App extends Component {
     });
   };
 
-  handleImageClick = e => {
+  handleImageClick = (url, alt) => {
     this.setState({
       modalOpen: true,
-      modalAlt: e.target.alt,
-      modalImg: e.target.name,
+      modalAlt: alt,
+      modalImg: url,
     });
   };
 
@@ -63,19 +62,23 @@ export class App extends Component {
     });
   };
 
+  componentDidMount() {
+    window.addEventListener('keydown', this.handleKeyDown);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.handleKeyDown);
+  }
+
   handleKeyDown = event => {
     if (event.code === 'Escape') {
       this.handleModalClose();
     }
   };
 
-  async componentDidMount() {
-    window.addEventListener('keydown', this.handleKeyDown);
-  }
-
   render() {
     return (
-      <div className={styles.Loader} >
+      <div className={styles.Loader}>
         {this.state.isLoading ? (
           <Loader />
         ) : (
@@ -90,13 +93,13 @@ export class App extends Component {
             ) : null}
           </React.Fragment>
         )}
-        {this.state.modalOpen ? (
+        {this.state.modalOpen && (
           <Modal
             src={this.state.modalImg}
             alt={this.state.modalAlt}
             handleClose={this.handleModalClose}
           />
-        ) : null}
+        )}
       </div>
     );
   }
